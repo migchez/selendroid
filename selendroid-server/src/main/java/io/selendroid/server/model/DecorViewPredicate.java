@@ -16,16 +16,15 @@ package io.selendroid.server.model;
 import android.view.View;
 import com.android.internal.util.Predicate;
 
-public class TagNamePredicate implements Predicate<View> {
-
-  protected final String using;
-
-  public TagNamePredicate(String using) {
-    this.using = using;
-  }
-
-  public boolean apply(View to) {
-    return to.getClass().getSimpleName().equals(using);
+public class DecorViewPredicate implements Predicate<Object> {
+  @Override
+  public boolean apply(Object view) {
+    // PopupViewContainer can be a top level menu shown
+    // MultiPhoneDecorView is for Samsung devices
+    String viewSimpleClassName = view.getClass().getSimpleName();
+    return viewSimpleClassName.equals("DecorView")
+      || viewSimpleClassName.equals("PopupViewContainer")
+      || viewSimpleClassName.equals("MultiPhoneDecorView");
   }
 }
 
